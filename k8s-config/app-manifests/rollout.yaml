@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:latest
+        image: nginx:20
         ports:
         - containerPort: 80
         # Boas práticas: Adicione resources para o Prometheus monitorar melhor
