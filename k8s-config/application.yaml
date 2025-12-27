@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     # SUBSTITUA PELA URL DO SEU REPOSITÓRIO GITHUB
-    repoURL: "https://github.com/SEU_USUARIO/meu-projeto-gitops.git"
+    repoURL: "https://github.com/lucascardosobarbeiro/projetos-devops.git"
     targetRevision: HEAD
     path: k8s-config/app-manifests # Pasta onde estão os YAMLs do app
   destination:
