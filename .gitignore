@@ -1,0 +1,24 @@
+# --- Terraform ---
+# Ignora os arquivos de estado do Terraform (contêm dados sensíveis da infra)
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+
+# Ignora a pasta de plugins e módulos (são baixados no 'terraform init')
+.terraform/
+.terraform.lock.hcl
+
+# Ignora arquivos de variáveis sensíveis (caso você crie um .tfvars no futuro)
+*.tfvars
+*.tfvars.json
+
+# --- Kubernetes / ArgoCD ---
+# Ignora arquivos de kubeconfig locais ou backups de segredos
+.kube/
+kubeconfig
+*initial-admin-secret*
+*.log
+
+# --- Sistema Operacional ---
+.DS_Store
+Thumbs.db
