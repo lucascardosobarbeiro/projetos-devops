@@ -6,12 +6,14 @@ metadata:
 spec:
   replicas: 5
   strategy:
-    canary: # Estratégia de Canary
+    canary:
       steps:
-      - setWeight: 20
-        pause: { duration: 1m } # Pausa 1 minuto para análise
-      - setWeight: 50
-        pause: { duration: 1m }
+      - setWeight: 20    # Passo 1: Define 20% de tráfego
+      - pause:           # Passo 2: Pausa indefinidamente (ou use duration)
+          duration: 1m
+      - setWeight: 50    # Passo 3: Sobe para 50%
+      - pause:
+          duration: 1m
   selector:
     matchLabels:
       app: web-server
@@ -22,6 +24,6 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:latest
+        image: nginx:1.21
         ports:
         - containerPort: 80
