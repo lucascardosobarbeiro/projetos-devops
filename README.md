@@ -30,6 +30,8 @@ The solution is designed following the ArgoCD **App of Apps** pattern, ensuring 
 ### 1. App of Apps Pattern (Root Application)
 
 We centralized management into a "master" application that orchestrates the installation of all other components (Monitoring, Production Apps, Redis, etc.), simplifying infrastructure governance.
+![alt text](image.png)
+![alt text](image-1.png)
 
 ### 2. Canary Release with Argo Rollouts
 
@@ -38,10 +40,12 @@ Unlike standard deployments, our Nginx application utilizes a progressive strate
 - **Step 1:** Routes only 20% of traffic to the new version.
 - **Step 2:** Pauses the deployment for a set duration (60s) to analyze stability.
 - **Step 3:** Gradually expands to 50% and finally 100% if health criteria are met.
+  ![alt text](image-2.png)
 
 ### 3. Integrated Observability
 
 Configuration of **ServiceMonitors** allows Prometheus to automatically discover new applications and begin collecting CPU, Memory, and Network metrics, visualized through dynamic Grafana dashboards.
+![alt text](image-3.png)
 
 ## 📦 Getting Started
 
