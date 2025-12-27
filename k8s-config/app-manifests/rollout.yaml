@@ -5,15 +5,21 @@ metadata:
   namespace: app-producao
 spec:
   replicas: 5
+  # Tempo limite para o rollout ser concluído antes de marcar como falha (10 min)
+  progressDeadlineSeconds: 600 
+  # Mantém as últimas 3 versões para rollback instantâneo
+  revisionHistoryLimit: 3 
   strategy:
     canary:
+      # Se o rollout for abortado (imagem quebra), remove os pods ruins após 30s
+      abortScaleDownDelaySeconds: 30 
       steps:
       - setWeight: 20
       - pause:
-          duration: 60  # Alterado de 1m para 60 (inteiro)
+          duration: 60
       - setWeight: 50
       - pause:
-          duration: 60  # Alterado de 1m para 60 (inteiro)
+          duration: 60
   selector:
     matchLabels:
       app: web-server
@@ -27,3 +33,11 @@ spec:
         image: nginx:latest
         ports:
         - containerPort: 80
+        # Boas práticas: Adicione resources para o Prometheus monitorar melhor
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
