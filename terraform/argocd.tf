@@ -11,8 +11,8 @@ resource "helm_release" "argocd" {
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
   version    = "5.27.3"
-
-  namespace = kubernetes_namespace.argocd_ns.metadata[0].name
+  wait       = false # <--- Adicione isso para evitar timeout prematuro
+  namespace  = kubernetes_namespace.argocd_ns.metadata[0].name
 
   # --- SOLUÇÃO PARA O ERRO DE TIMEOUT ---
   timeout         = 900 # Dá 15 minutos para baixar e subir tudo
@@ -57,4 +57,12 @@ resource "kubernetes_manifest" "root_application" {
       }
     }
   }
+}
+
+resource "helm_release" "argocd_rollouts" {
+  name             = "argo-rollouts"
+  repository       = "https://argoproj.github.io/argo-helm"
+  chart            = "argo-rollouts"
+  namespace        = "argo-rollouts"
+  create_namespace = true
 }
