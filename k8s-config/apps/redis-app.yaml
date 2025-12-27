@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redis-production
+  namespace: argocd
+  # Adicionar uma label ajuda na organização visual no painel
+  labels:
+    tier: database
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/lucascardosobarbeiro/projetos-devops.git' # Substitua pelo seu repositório
+    targetRevision: HEAD
+    path: k8s-config/redis-manifests # Onde você salvou o redis.yaml acima
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: producao
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

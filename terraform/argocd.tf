@@ -26,3 +26,35 @@ resource "helm_release" "argocd" {
     value = "LoadBalancer"
   }
 }
+
+# Este recurso cria a definição da Application dentro do Kubernetes logo após instalar o ArgoCD
+resource "kubernetes_manifest" "root_application" {
+  depends_on = [helm_release.argocd] # Espera o ArgoCD estar pronto
+
+  manifest = {
+    apiVersion = "argoproj.io/v1alpha1"
+    kind       = "Application"
+    metadata = {
+      name      = "root-application"
+      namespace = "argocd"
+    }
+    spec = {
+      project = "default"
+      source = {
+        repoURL        = "https://github.com/lucascardosobarbeiro/projetos-devops.git"
+        targetRevision = "HEAD"
+        path           = "k8s-config" # Aponta para onde estão as definições de apps no Git
+      }
+      destination = {
+        server    = "https://kubernetes.default.svc"
+        namespace = "argocd"
+      }
+      syncPolicy = {
+        automated = {
+          prune    = true
+          selfHeal = true
+        }
+      }
+    }
+  }
+}
