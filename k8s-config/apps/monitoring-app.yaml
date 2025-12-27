@@ -18,3 +18,5 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+    - ServerSideApply=true  # Resolve o erro de "Too long"
+    - SkipDryRunOnMissingResource=true # Ajuda quando a CRD ainda não existe
